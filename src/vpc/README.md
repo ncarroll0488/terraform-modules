@@ -41,7 +41,7 @@ No requirements.
 This module attempts provide boilerplate configuration of a VPC. It is not meant to encompass every single feature of a VPC, but rather to provide the operator with a functional, customizable resource.
 
 ## Usage
-### Just tell me how to configure it
+### Quick Start
 A typical configuration looks like this
 ```hcl
 provision_public_subnets = true
