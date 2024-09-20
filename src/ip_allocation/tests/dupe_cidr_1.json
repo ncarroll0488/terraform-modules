@@ -1,0 +1,14 @@
+{
+  "203.0.113.0/24": {
+      "account": "1111222233334444",
+      "env": "demo",
+      "region": "us-east-2",
+      "vpcname": "demo1"
+  },
+  "203.0.114.0/24": {
+      "account": "1111222233334444",
+      "env": "test",
+      "region": "us-east-2",
+      "vpcname": "test1"
+  }
+}
