@@ -1,0 +1,39 @@
+# Note: This is meant to be sourced by the packager script, not invoked directly
+
+# Stop on any failure
+set -e
+
+# Make sure our runtime exists on this system
+type "${RUNTIME}"
+
+# The temporary directory where our shared libs are stored
+LIB_PATH="$(mktemp -d)"
+
+# CD into the project
+cd "${SOURCE_PATH}"
+
+# Set up a virtualenv if your package requires it
+if [ -f "requirements.txt" ] ; then
+
+  # Invoke the pip module of the current runtime, and install dependencies
+  "${RUNTIME}" -m pip install --target "${LIB_PATH}" -r "requirements.txt"
+
+  # Zip up our installed libs
+  cd "${LIB_PATH}"
+  zip -r "${PACKAGE_ZIP}" .
+
+  # Return to the source path
+  cd "${SOURCE_PATH}"
+
+  # Delete the temporary lib dir. We don't need it anymore
+  rm -Rf --preserve-root "${LIB_PATH}"
+fi
+
+# If there's a "build.sh" present, invoke it. The build process should leave the working directory in a ready-to-package state
+[ -f "build.sh" ] && ./build.sh
+
+# Finish packaging up the rest of the project into the zip
+zip -r "${PACKAGE_ZIP}" .
+
+
+set +e
