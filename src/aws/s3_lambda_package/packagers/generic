@@ -1,0 +1,10 @@
+# Note: This is meant to be sourced by the packager script, not invoked directly
+
+# CD into the project
+cd "${SOURCE_PATH}"
+
+# A build.sh must exist or there's nothing to do and we're probably looking in the wrong place
+./build.sh
+
+# Package up the contents of the project
+zip -x "build.sh" -r "${PACKAGE_ZIP}" .
