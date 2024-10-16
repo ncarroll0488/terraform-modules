@@ -1,0 +1,4 @@
+.tmp_package.*
+.tmp_dir.*
+package.zip
+.local.tfvars
