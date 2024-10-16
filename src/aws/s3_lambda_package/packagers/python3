@@ -27,8 +27,8 @@ if [ -f "requirements.txt" ] ; then
 
 fi
 
-# If there's a "build.sh" present, invoke it. The build process should leave the working directory in a ready-to-package state
+# If there's a "build_lambda.sh" present, invoke it. The build process should leave the working directory in a ready-to-package state
 [ -f "build_lambda.sh" ] && ./build_lambda.sh
 
 # Finish packaging up the rest of the project into the zip
-zip -x "__pycache__/*" "build.sh" "requirements.txt" -r "${PACKAGE_ZIP}" .
+zip -x "__pycache__/*" "build_lambda.sh" "requirements.txt" -r "${PACKAGE_ZIP}" .
