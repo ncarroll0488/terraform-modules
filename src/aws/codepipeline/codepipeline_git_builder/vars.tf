@@ -47,13 +47,13 @@ variable "pull_request_builder" {
 variable "pr_build_exclude_branches" {
   type        = list(string)
   description = "A list of branch names excluded from pull request builds"
-  default     = null
+  default     = []
 }
 
 variable "pr_build_include_branches" {
   type        = list(string)
   description = "A list of branch names included in pull request builds"
-  default     = ["**"]
+  default     = null
 }
 
 variable "push_builder" {

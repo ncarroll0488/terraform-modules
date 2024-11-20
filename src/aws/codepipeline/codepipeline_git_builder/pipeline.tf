@@ -43,7 +43,7 @@ resource "aws_codepipeline" "codepipeline" {
         content {
           events = ["OPEN", "UPDATED"]
           branches {
-            excludes = var.pr_build_exclude_branches
+            excludes = coalescelist(var.pr_build_exclude_branches, [var.default_branch_name])
             includes = var.pr_build_include_branches
           }
           file_paths {
