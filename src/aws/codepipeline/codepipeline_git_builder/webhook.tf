@@ -13,9 +13,15 @@ resource "aws_codepipeline_webhook" "main" {
     secret_token = random_password.password.result
   }
 
+/*
   filter {
     json_path    = "$.ref"
     match_equals = "refs/heads/{Branch}"
+  }
+*/
+  filter {
+    json_path = "$.pull_request.state"
+    match_equals = "open"
   }
   lifecycle {
     ignore_changes = [
