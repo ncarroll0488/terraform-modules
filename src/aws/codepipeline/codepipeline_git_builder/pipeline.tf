@@ -22,7 +22,8 @@ resource "aws_codepipeline" "codepipeline" {
     git_configuration {
       source_action_name = "SourceAction"
       dynamic "push" {
-        for_each = var.push_builder ? ["a"] : []
+        //for_each = var.push_builder ? ["a"] : []
+        for_each = false ? ["a"] : []
         content {
           branches {
             excludes = var.push_build_exclude_branches
