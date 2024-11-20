@@ -45,7 +45,7 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "artifacts" {
 
 # If bringing our own bucket, simply datasource it.
 data "aws_s3_bucket" "artifacts" {
-  bucket   = local.artifacts_bucket_name
+  bucket = local.artifacts_bucket_name
 }
 
 

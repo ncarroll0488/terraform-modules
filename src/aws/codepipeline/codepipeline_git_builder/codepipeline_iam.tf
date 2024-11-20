@@ -43,7 +43,7 @@ data "aws_iam_policy_document" "codepipeline_policy" {
     resources = [local.codestar_connection_arn]
   }
 
-/*
+  /*
   statement {
     effect = "Allow"
 

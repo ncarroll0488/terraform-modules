@@ -7,7 +7,7 @@ resource "aws_codepipeline" "codepipeline" {
     location = local.artifacts_bucket_name
     type     = "S3"
 
-    dynamic encryption_key {
+    dynamic "encryption_key" {
       for_each = var.artifacts_bucket_encryption_algorithm == "aws:kms" && var.artifacts_bucket_kms_key_id != null ? ["a"] : []
       content {
         id   = local.artifacts_bucket_kms_key_id
@@ -25,6 +25,18 @@ resource "aws_codepipeline" "codepipeline" {
         source_action_name = "SourceAction"
         pull_request {
           events = ["OPEN", "UPDATED"]
+          branches {
+            excludes = var.pr_build_exclude_branches
+            includes = var.pr_build_include_branches
+          }
+          file_paths {
+            includes = ["**"]
+            excludes = [
+              "**/README.md",
+              "**/LICENSE",
+              "**/CONTRIBUTING.md"
+            ]
+          }
         }
       }
     }
@@ -37,6 +49,7 @@ resource "aws_codepipeline" "codepipeline" {
       category         = "Source"
       owner            = "AWS"
       provider         = "CodeStarSourceConnection"
+      namespace        = "foo"
       version          = "1"
       output_artifacts = ["source_output"]
 
@@ -45,7 +58,7 @@ resource "aws_codepipeline" "codepipeline" {
         FullRepositoryId = var.repository_id
 
         /* Documentation suggests that this is merely a default, and a trigger would pull the correct commit */
-        BranchName = var.default_branch_name
+        BranchName = "main"
       }
     }
   }
