@@ -15,7 +15,7 @@ resource "aws_codepipeline_webhook" "main" {
 
   filter {
     json_path    = "$.ref"
-    match_equals = "refs/heads/.*"
+    match_equals = "refs/heads/**"
   }
   lifecycle {
     ignore_changes = [
