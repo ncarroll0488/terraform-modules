@@ -32,16 +32,16 @@ variable "repository_id" {
   description = "ID of the repository, `organization/repo`"
 }
 
-variable "pull_request_builder" {
-  type        = bool
-  description = "Enable building on pull requests"
-  default     = false
-}
-
 variable "codestar_connection_arn" {
   type        = string
   description = "ARN of an existing CodeStar connection to use"
   default     = ""
+}
+
+variable "pull_request_builder" {
+  type        = bool
+  description = "Enable building on pull requests"
+  default     = false
 }
 
 variable "pr_build_exclude_branches" {
@@ -54,4 +54,22 @@ variable "pr_build_include_branches" {
   type        = list(string)
   description = "A list of branch names included in pull request builds"
   default     = ["**"]
+}
+
+variable "push_builder" {
+  type        = bool
+  description = "Enable building on pull requests"
+  default     = false
+}
+
+variable "push_build_exclude_branches" {
+  type        = list(string)
+  description = "A list of branch names excluded from pull request builds"
+  default     = null
+}
+
+variable "push_build_include_branches" {
+  type        = list(string)
+  description = "A list of branch names included in pull request builds"
+  default     = []
 }

@@ -17,13 +17,30 @@ resource "aws_codepipeline" "codepipeline" {
   }
 
   # A trigger for pull requests
-  dynamic "trigger" {
-    for_each = var.pull_request_builder ? ["a"] : []
-    content {
-      provider_type = "CodeStarSourceConnection"
-      git_configuration {
-        source_action_name = "SourceAction"
-        pull_request {
+  trigger {
+    provider_type = "CodeStarSourceConnection"
+    git_configuration {
+      source_action_name = "SourceAction"
+      dynamic "push" {
+        for_each = var.push_builder ? ["a"] : []
+        content {
+          branches {
+            excludes = var.push_build_exclude_branches
+            includes = coalescelist(var.push_build_include_branches, [var.default_branch_name])
+          }
+          file_paths {
+            includes = ["**"]
+            excludes = [
+              "**/README.md",
+              "**/LICENSE",
+              "**/CONTRIBUTING.md"
+            ]
+          }
+        }
+      }
+      dynamic "pull_request" {
+        for_each = var.pull_request_builder ? ["a"] : []
+        content {
           events = ["OPEN", "UPDATED"]
           branches {
             excludes = var.pr_build_exclude_branches
@@ -49,7 +66,6 @@ resource "aws_codepipeline" "codepipeline" {
       category         = "Source"
       owner            = "AWS"
       provider         = "CodeStarSourceConnection"
-      namespace        = "foo"
       version          = "1"
       output_artifacts = ["source_output"]
 
@@ -58,7 +74,7 @@ resource "aws_codepipeline" "codepipeline" {
         FullRepositoryId = var.repository_id
 
         /* Documentation suggests that this is merely a default, and a trigger would pull the correct commit */
-        BranchName = "main"
+        BranchName = var.default_branch_name
       }
     }
   }
