@@ -23,5 +23,6 @@ If the program `terraform-docs` is installed, it can be used to generate a READM
 
 Custom documentation can be added by editing `README.md_part` in the module's source directory. The script attempts to not overwrite "old" README files. 
 
+
 ## Auto-Formatting
 If the program `terraform` is installed, it can be used to automatically format your module source code. Invoke `scripts/fmt-all.sh` to format all known .tf files in the module source directory
