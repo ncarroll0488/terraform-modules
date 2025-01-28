@@ -13,7 +13,7 @@ No requirements.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | ecr\_repo\_name | Name of the repo | `string` | n/a | yes |
-| encryption\_type | The type of encryption to use | `string` | `""` | no |
+| encryption\_type | The type of encryption to use (kms or aes256) | `string` | `""` | no |
 | image\_scanning\_enabled | Enables automated scanning of images on push | `bool` | `true` | no |
 | image\_tag\_mutability | Set to False for immutable tags | `bool` | `false` | no |
 | kms\_key\_arn | ARN of a KMS key used to encrypt this repo | `string` | `""` | no |

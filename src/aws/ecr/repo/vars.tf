@@ -17,7 +17,7 @@ variable "image_scanning_enabled" {
 
 variable "encryption_type" {
   type        = string
-  description = "The type of encryption to use"
+  description = "The type of encryption to use (kms or aes256)"
   default     = ""
   validation {
     condition     = contains(["kms", "aes256", ""], lower(var.encryption_type))
