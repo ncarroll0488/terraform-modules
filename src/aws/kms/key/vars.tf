@@ -37,7 +37,7 @@ variable "custom_key_store_id" {
 
 variable "customer_master_key_spec" {
   type    = string
-  default = "ENCRYPT_DECRYPT"
+  default = "SYMMETRIC_DEFAULT"
   validation {
     condition = contains(
       [
