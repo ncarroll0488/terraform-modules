@@ -20,5 +20,5 @@ output "ecs_cluster_arn" {
 
 output "cloudwatch_log_group_arn" {
   description = "ARN of the cluster's cloudwatch log group"
-  value       = aws_cloudwatch_log_group.main.arn
+  value       = local.cloudwatch_log_group_arn
 }

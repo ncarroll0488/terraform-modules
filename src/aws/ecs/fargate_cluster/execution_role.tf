@@ -41,7 +41,21 @@ data "aws_iam_policy_document" "execution_policy" {
       "logs:PutLogEvents"
     ]
     effect    = "Allow"
-    resources = ["${aws_cloudwatch_log_group.main.arn}:log-stream:*"]
+    resources = [local.cloudwatch_log_stream_arn]
+  }
+
+  dynamic "statement" {
+    for_each = length(var.kms_key_arns) > 0 ? ["a"] : []
+    content {
+      sid = "KMS"
+      actions = [
+        "kms:encrypt",
+        "kms:decrypt",
+        "kms:describe*"
+      ]
+      resources = toset(var.kms_key_ids)
+      effect    = "Allow"
+    }
   }
 }
 

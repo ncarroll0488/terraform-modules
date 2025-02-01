@@ -32,3 +32,15 @@ variable "task_definition_arns" {
   description = "Restrict the service role to these task definition ARNs"
   default     = ["*"]
 }
+
+variable "cloudwatch_log_group_arn" {
+  type        = string
+  description = "An externally created cloudwatch log group"
+  default     = ""
+}
+
+variable "kms_key_arns" {
+  type        = list(string)
+  description = "KMS Key IDs which will be used for encrypt/decrypt"
+  default     = []
+}
