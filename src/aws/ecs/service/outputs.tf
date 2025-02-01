@@ -9,6 +9,6 @@ output "service_arn" {
 }
 
 output "service_dns" {
-  description = "DNS names corresponding to load balanced services"
-  value       = { for service_id, lb in data.aws_lb.main : service_id => lb.dns_name }
+  description = "DNS names and zone corresponding to load balanced services"
+  value       = { for service_id, lb in data.aws_lb.main : service_id => { dns = lb.dns_name, zone = lb.zone_id } }
 }
