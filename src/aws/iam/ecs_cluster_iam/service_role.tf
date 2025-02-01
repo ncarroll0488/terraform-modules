@@ -46,7 +46,7 @@ data "aws_iam_policy_document" "service_policy" {
       content {
         test     = "StringEquals"
         variable = "aws:SourceVpc"
-        values   = toset(var.vpcs)
+        values   = toset(var.vpc_ids)
       }
     }
   }
