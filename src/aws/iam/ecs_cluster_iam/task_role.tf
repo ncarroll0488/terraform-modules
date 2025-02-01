@@ -12,12 +12,12 @@ data "aws_iam_policy_document" "task_trust" {
 }
 
 resource "aws_iam_role" "task" {
-  name               = "${var.cluster_name}_task"
+  name_prefix        = "${var.role_name}_task"
   path               = var.iam_entity_path
   assume_role_policy = data.aws_iam_policy_document.task_trust.json
 
   tags = {
-    Name = "Task role for ECS cluster: ${var.cluster_name}"
+    Name = "${var.role_name} ECS Task Role"
   }
 }
 

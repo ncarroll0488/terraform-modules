@@ -12,12 +12,12 @@ data "aws_iam_policy_document" "service_trust" {
 }
 
 resource "aws_iam_role" "service" {
-  name               = "${var.cluster_name}_service"
+  name_prefix        = "${var.role_name}_service"
   path               = var.iam_entity_path
   assume_role_policy = data.aws_iam_policy_document.service_trust.json
 
   tags = {
-    Name = "Service role for ECS cluster: ${var.cluster_name}"
+    Name = "${var.role_name} Service role"
   }
 }
 
@@ -28,16 +28,26 @@ data "aws_iam_policy_document" "service_policy" {
       "ecs:RunTask"
     ]
     effect    = "Allow"
-    resources = var.task_definition_arns
+    resources = coalescelist(var.task_definition_arns, ["*"])
 
-    // Restrict these actions to our cluster
-    condition {
-      test     = "ArnEquals"
-      variable = "ecs:cluster"
+    // Restrict these actions to our clusters
+    dynamic "condition" {
+      for_each = length(var.ecs_cluster_arns) > 0 ? ["a"] : []
+      content {
+        test     = "ArnEquals"
+        variable = "ecs:cluster"
+        values   = toset(var.ecs_cluster_arns)
+      }
+    }
 
-      values = [
-        aws_ecs_cluster.main.arn
-      ]
+    // VPC restriction
+    dynamic "condition" {
+      for_each = length(var.vpc_ids) > 0 ? ["a"] : []
+      content {
+        test     = "StringEquals"
+        variable = "aws:SourceVpc"
+        values   = toset(var.vpcs)
+      }
     }
   }
 
@@ -56,9 +66,9 @@ data "aws_iam_policy_document" "service_policy" {
 }
 
 resource "aws_iam_policy" "service_policy" {
-  name        = "${var.cluster_name}_service"
+  name_prefix = "${var.role_name}_service"
   path        = var.iam_entity_path
-  description = "Policy for ${var.cluster_name} service role"
+  description = "${var.role_name} ECS service policy"
   policy      = data.aws_iam_policy_document.service_policy.json
 }
 

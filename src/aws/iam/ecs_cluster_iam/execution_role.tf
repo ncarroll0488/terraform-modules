@@ -12,12 +12,12 @@ data "aws_iam_policy_document" "execution_trust" {
 }
 
 resource "aws_iam_role" "execution" {
-  name               = "${var.cluster_name}_execution"
+  name_prefix        = "${var.role_name}_execution"
   path               = var.iam_entity_path
   assume_role_policy = data.aws_iam_policy_document.execution_trust.json
 
   tags = {
-    Name = "Execution role for ECS cluster: ${var.cluster_name}"
+    Name = "${var.role_name} ECS Execution role"
   }
 }
 
@@ -31,7 +31,7 @@ data "aws_iam_policy_document" "execution_policy" {
       "ecr:BatchGetImage"
     ]
     effect    = "Allow"
-    resources = var.ecr_repos
+    resources = coalescelist(var.ecr_repo_arns, ["*"])
   }
 
   statement {
@@ -41,7 +41,7 @@ data "aws_iam_policy_document" "execution_policy" {
       "logs:PutLogEvents"
     ]
     effect    = "Allow"
-    resources = [local.cloudwatch_log_stream_arn]
+    resources = local.cloudwatch_log_stream_arns
   }
 
   dynamic "statement" {
@@ -60,11 +60,10 @@ data "aws_iam_policy_document" "execution_policy" {
 }
 
 resource "aws_iam_policy" "execution_policy" {
-  name        = "${var.cluster_name}_execution"
+  name_prefix = "${var.role_name}_execution"
   path        = var.iam_entity_path
-  description = "Policy for ${var.cluster_name} execution role"
-
-  policy = data.aws_iam_policy_document.execution_policy.json
+  description = "${var.role_name} ECS execution role"
+  policy      = data.aws_iam_policy_document.execution_policy.json
 }
 
 resource "aws_iam_role_policy_attachment" "execution_policy" {
