@@ -10,7 +10,7 @@ resource "aws_ecs_service" "main" {
     assign_public_ip = var.assign_public_ip
   }
   dynamic "load_balancer" {
-    for_each = var.target_group_associations
+    for_each = local.container_associations
     content {
       target_group_arn = each.value.target_group_arn
       container_name   = each.value.container_name

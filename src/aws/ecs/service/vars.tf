@@ -90,8 +90,9 @@ variable "tags" {
   default     = {}
 }
 
-variable "target_group_associations" {
-  description = "list of maps containing `container_port`, `container_name`, and `target_group_arn`"
+/* Note: Create the load balancer(s) elsewhere before this. We'll create and associate target groups in this module */
+variable "lb_associations" {
+  description = "list of maps containing `container_port`, `container_name`, `container_protocol`, and `lb_arn`"
   type        = list(map(string))
   default     = []
 }
