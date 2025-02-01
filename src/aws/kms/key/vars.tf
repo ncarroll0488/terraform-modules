@@ -82,4 +82,5 @@ variable "tags" {
 variable "key_names" {
   type        = list(string)
   description = "A list of key aliases to create"
+  default = []
 }
