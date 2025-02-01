@@ -53,7 +53,7 @@ data "aws_iam_policy_document" "execution_policy" {
         "kms:decrypt",
         "kms:describe*"
       ]
-      resources = toset(var.kms_key_ids)
+      resources = toset(var.kms_key_arns)
       effect    = "Allow"
     }
   }
