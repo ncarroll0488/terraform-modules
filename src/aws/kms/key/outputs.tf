@@ -10,5 +10,5 @@ output "kms_key_id" {
 
 output "kms_key_aliases" {
   description = "Aliases assigned to this key"
-  value       = { for k, v in values(aws_kms_alias.main) : k => { alias_arn = v.arn, key_arn = v.target_key_arn } }
+  value       = { for k, v in aws_kms_alias.main : k => { alias_arn = v.arn, key_arn = v.target_key_arn } }
 }
