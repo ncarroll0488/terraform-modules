@@ -13,7 +13,7 @@ resource "aws_kms_key" "main" {
   # I can think of no reason one wouldn't want this in the real world
   bypass_policy_lockout_safety_check = false
 
-  tags   = merge(var.tags, { Name = sort(var.key_names)[0] })
+  tags   = merge(var.tags, try({ Name = sort(var.key_names)[0] }, {}))
   policy = data.aws_iam_policy_document.main.json
 }
 
@@ -42,7 +42,7 @@ data "aws_iam_policy_document" "main" {
     content {
       principals {
         type        = "Service"
-        identifiers = toset([var.allowed_aws_services])
+        identifiers = toset(var.allowed_aws_services)
       }
       actions = [
         "kms:Encrypt",
@@ -51,7 +51,7 @@ data "aws_iam_policy_document" "main" {
         "kms:DescribeKey",
         "kms:Decrypt"
       ]
-      resources = "*"
+      resources = ["*"]
     }
   }
 }
