@@ -12,11 +12,12 @@ No requirements.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
+| allowed\_aws\_services | A list of AWS services which will use this key (`xyz.amazonaws.com`, `abc.region.amazonaws.com`) | `list(string)` | `[]` | no |
 | custom\_key\_store\_id | ID of the KMS Custom Key Store where the key will be stored | `string` | `null` | no |
-| customer\_master\_key\_spec | n/a | `string` | `"ENCRYPT_DECRYPT"` | no |
+| customer\_master\_key\_spec | n/a | `string` | `"SYMMETRIC_DEFAULT"` | no |
 | enable\_key | Enable this key | `bool` | `true` | no |
 | key\_deletion\_window | Deletion window of the key, in days | `number` | `null` | no |
-| key\_names | A list of key aliases to create | `list(string)` | n/a | yes |
+| key\_names | A list of key aliases to create | `list(string)` | `[]` | no |
 | key\_rotation\_days | How frequently the key is rotated, in days | `number` | `-1` | no |
 | key\_usage | Intended use of the key | `string` | `"ENCRYPT_DECRYPT"` | no |
 | kms\_key\_description | Description of this KMS key | `string` | n/a | yes |

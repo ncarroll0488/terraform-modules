@@ -82,5 +82,11 @@ variable "tags" {
 variable "key_names" {
   type        = list(string)
   description = "A list of key aliases to create"
-  default = []
+  default     = []
+}
+
+variable "allowed_aws_services" {
+  type        = list(string)
+  description = "A list of AWS services which will use this key (`xyz.amazonaws.com`, `abc.region.amazonaws.com`)"
+  default     = []
 }
