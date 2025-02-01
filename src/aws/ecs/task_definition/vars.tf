@@ -1,8 +1,3 @@
-variable "region" {
-  description = "The AWS region to deploy the task definition."
-  type        = string
-}
-
 variable "family" {
   description = "The name of the family for this task definition."
   type        = string
