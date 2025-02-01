@@ -1,5 +1,5 @@
 resource "aws_cloudwatch_log_group" "main" {
-  for_each    = var.cloudwatch_log_group_arn == "" ? ["main"] : []
+  for_each    = toset(var.cloudwatch_log_group_arn == "" ? ["main"] : [])
   name_prefix = "ecs_${var.cluster_name}"
 
   tags = {
