@@ -39,12 +39,6 @@ variable "requires_compatibilities" {
   type        = list(string)
 }
 
-variable "runtime_platform" {
-  description = "The platform for the task to run on (Linux or Windows)."
-  type        = string
-  default     = "LINUX"
-}
-
 variable "tags" {
   description = "A map of tags to assign to the task definition."
   type        = map(string)
