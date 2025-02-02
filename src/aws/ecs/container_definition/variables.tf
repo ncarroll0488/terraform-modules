@@ -270,52 +270,6 @@ variable "working_directory" {
   default     = null
 }
 
-################################################################################
-# CloudWatch Log Group
-################################################################################
-
-variable "service" {
-  description = "The name of the service that the container definition is associated with"
-  type        = string
-  default     = ""
-}
-
-variable "enable_cloudwatch_logging" {
-  description = "Determines whether CloudWatch logging is configured for this container definition. Set to `false` to use other logging drivers"
-  type        = bool
-  default     = true
-}
-
-variable "create_cloudwatch_log_group" {
-  description = "Determines whether a log group is created by this module. If not, AWS will automatically create one if logging is enabled"
-  type        = bool
-  default     = true
-}
-
-variable "cloudwatch_log_group_name" {
-  description = "Custom name of CloudWatch log group for a service associated with the container definition"
-  type        = string
-  default     = null
-}
-
-variable "cloudwatch_log_group_use_name_prefix" {
-  description = "Determines whether the log group name should be used as a prefix"
-  type        = bool
-  default     = false
-}
-
-variable "cloudwatch_log_group_retention_in_days" {
-  description = "Number of days to retain log events. Default is 30 days"
-  type        = number
-  default     = 30
-}
-
-variable "cloudwatch_log_group_kms_key_id" {
-  description = "If a KMS Key ARN is set, this key will be used to encrypt the corresponding log group. Please be sure that the KMS Key has an appropriate key policy (https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/encrypt-log-data-kms.html)"
-  type        = string
-  default     = null
-}
-
 variable "tags" {
   description = "A map of tags to add to all resources"
   type        = map(string)
