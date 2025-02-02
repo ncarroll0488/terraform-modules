@@ -31,7 +31,7 @@ No requirements.
 | internal | Make this an internal LB | `bool` | `null` | no |
 | ip\_address\_type | Type of IP addresses to use | `string` | `null` | no |
 | lb\_name | Name of the LB | `string` | n/a | yes |
-| lb\_type | Type of the LB | `string` | `null` | no |
+| lb\_type | Type of the LB | `string` | `"application"` | no |
 | preserve\_host\_header | Preserve the HTTP Host header | `bool` | `null` | no |
 | security\_groups | Security groups IDs to use on this load balancer | `list(string)` | `null` | no |
 | subnet\_ids | List of subnets into which the load balancer is placed | `list(string)` | n/a | yes |
@@ -40,5 +40,10 @@ No requirements.
 
 ## Outputs
 
-No output.
+| Name | Description |
+|------|-------------|
+| lb\_arn | ARN of the load balancer |
+| lb\_arn\_suffix | LB ARN suffix |
+| lb\_dns\_name | The DNS hostname of the LB - for CNAMEs, etc. |
+| lb\_zone\_id | Zone ID of the load balancer's Route53 records (for aliases) |
 

@@ -1,5 +1,5 @@
 resource "aws_lb" "main" {
-  name_prefix                = var.lb_name
+  name_prefix                = substr(var.lb_name, 0, 6)
   internal                   = var.internal
   ip_address_type            = var.ip_address_type
   load_balancer_type         = lower(var.lb_type)
