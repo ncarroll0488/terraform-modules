@@ -3,19 +3,7 @@ data "aws_region" "current" {}
 locals {
   is_not_windows = contains(["LINUX"], var.operating_system_family)
 
-  log_group_name = try(coalesce(var.cloudwatch_log_group_name, "/aws/ecs/${var.service}/${var.name}"), "")
-
-  log_configuration = merge(
-    { for k, v in {
-      logDriver = "awslogs",
-      options = {
-        awslogs-region        = data.aws_region.current.name,
-        awslogs-group         = try(aws_cloudwatch_log_group.this[0].name, ""),
-        awslogs-stream-prefix = "ecs"
-      },
-    } : k => v if var.enable_cloudwatch_logging },
-    var.log_configuration
-  )
+  log_configuration = var.log_configuration
 
   linux_parameters = var.enable_execute_command ? merge({ "initProcessEnabled" : true }, var.linux_parameters) : merge({ "initProcessEnabled" : false }, var.linux_parameters)
 
@@ -69,15 +57,4 @@ locals {
 
   # Strip out all null values, ECS API will provide defaults in place of null/empty values
   container_definition = { for k, v in local.definition : k => v if v != null }
-}
-
-resource "aws_cloudwatch_log_group" "this" {
-  count = var.create_cloudwatch_log_group && var.enable_cloudwatch_logging ? 1 : 0
-
-  name              = var.cloudwatch_log_group_use_name_prefix ? null : local.log_group_name
-  name_prefix       = var.cloudwatch_log_group_use_name_prefix ? "${local.log_group_name}-" : null
-  retention_in_days = var.cloudwatch_log_group_retention_in_days
-  kms_key_id        = var.cloudwatch_log_group_kms_key_id
-
-  tags = var.tags
 }
