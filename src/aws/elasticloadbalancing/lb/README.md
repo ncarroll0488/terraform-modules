@@ -28,10 +28,14 @@ No requirements.
 | enable\_deletion\_protection | Enable deletion protection. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/lb#enable_deletion_protection-4 | `bool` | `true` | no |
 | enable\_http2 | Enable HTTP/2 | `bool` | `null` | no |
 | enable\_zonal\_shift | Enable zonal shift | `bool` | `null` | no |
+| https\_redirect | When using application load balancing, add a relatively common listener which redirects to https | `bool` | `false` | no |
+| https\_redirect\_from\_port | The listening port which will redirect traffic to HTTPS | `number` | `80` | no |
+| https\_redirect\_to\_port | HTTPS redirect will be sent to this port | `number` | `443` | no |
 | internal | Make this an internal LB | `bool` | `null` | no |
 | ip\_address\_type | Type of IP addresses to use | `string` | `null` | no |
 | lb\_name | Name of the LB | `string` | n/a | yes |
 | lb\_type | Type of the LB | `string` | `"application"` | no |
+| listener\_forwarding | A quick-and-easy way to bind a listener to an IP target group. For more advanced behavior, use this module's outputs in a separate module which offers more complex features | `map(any)` | `{}` | no |
 | preserve\_host\_header | Preserve the HTTP Host header | `bool` | `null` | no |
 | security\_groups | Security groups IDs to use on this load balancer | `list(string)` | `null` | no |
 | subnet\_ids | List of subnets into which the load balancer is placed | `list(string)` | n/a | yes |
@@ -46,4 +50,5 @@ No requirements.
 | lb\_arn\_suffix | LB ARN suffix |
 | lb\_dns\_name | The DNS hostname of the LB - for CNAMEs, etc. |
 | lb\_zone\_id | Zone ID of the load balancer's Route53 records (for aliases) |
+| target\_group\_arns | n/a |
 

@@ -168,3 +168,25 @@ variable "https_redirect_to_port" {
   description = "HTTPS redirect will be sent to this port"
   default     = 443
 }
+
+variable "listener_forwarding" {
+  description = "A quick-and-easy way to bind a listener to an IP target group. For more advanced behavior, use this module's outputs in a separate module which offers more complex features"
+  type        = map(any)
+  default     = {}
+}
+
+
+/*
+  An example of listener_forwarding
+{
+  bar9876 = [
+    { name = "listener_port", value = "443" },
+    { name = "target_port", value = "80" },
+    { name = "listener_protocol", value = "HTTPS" },
+    { name = "target_protocol", value = "HTTP" },
+    { name = "listener_certificate", value = "arn:foo" },
+    { name = "listener_sni_certificates", value = "arn1,arn2,arn3..." }
+  ]
+}
+*/
+

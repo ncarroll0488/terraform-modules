@@ -10,11 +10,11 @@ resource "aws_ecs_service" "main" {
     assign_public_ip = var.assign_public_ip
   }
   dynamic "load_balancer" {
-    for_each = local.container_associations
+    for_each = tolist(var.lb_associations)
     content {
-      target_group_arn = each.value.target_group_arn
-      container_name   = each.value.container_name
-      container_port   = each.value.container_port
+      target_group_arn = load_balancer.value.target_group_arn
+      container_name   = load_balancer.value.container_name
+      container_port   = tonumber(load_balancer.value.container_port)
     }
   }
   health_check_grace_period_seconds  = var.health_check_grace_period_seconds
