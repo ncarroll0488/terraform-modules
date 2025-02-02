@@ -44,22 +44,6 @@ variable "assign_public_ip" {
   default     = false
 }
 
-variable "target_group_arn" {
-  description = "The ARN of the target group for the load balancer."
-  type        = string
-  default     = null
-}
-
-variable "container_name" {
-  description = "The name of the container within the task definition to associate with the load balancer."
-  type        = string
-}
-
-variable "container_port" {
-  description = "The port on which the container listens."
-  type        = number
-}
-
 variable "health_check_grace_period_seconds" {
   description = "The amount of time to ignore failing health checks after a task has been started."
   type        = number
@@ -90,9 +74,21 @@ variable "tags" {
   default     = {}
 }
 
-/* Note: Create the load balancer(s) elsewhere before this. We'll create and associate target groups in this module */
+/* Note: Create the load balancers and target groups elsewhere, and use their outputs here */
 variable "lb_associations" {
-  description = "list of maps containing `container_port`, `container_name`, `container_protocol`, and `lb_arn`"
+  description = "list of maps containing `target_group_arn`, `container_name`, `container_port`"
   type        = list(map(string))
   default     = []
 }
+
+/*
+  example lb_associations
+[
+  {
+    target_group_arn = "arn:1234"
+    container_name = "foobar"
+    container_port = "80"    // do a string or terraform/grunt may complain about mixed data types.
+  }
+]
+
+*/
