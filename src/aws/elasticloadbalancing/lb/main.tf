@@ -54,3 +54,21 @@ resource "aws_lb" "main" {
 
   tags = merge(var.tags, { name = var.lb_name })
 }
+
+// This is a very common use-case, so it's added here for convenience
+resource "aws_lb_listener" "redirect_https" {
+  for_each          = toset(var.https_redirect && lower(var.lb_type) == "application" ? ["main"] : [])
+  load_balancer_arn = aws_lb.main.arn
+  port              = var.https_redirect_from_port
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = var.https_redirect_to_port
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}

@@ -150,3 +150,21 @@ variable "tags" {
   description = "A map of tags"
   default     = {}
 }
+
+variable "https_redirect" {
+  type        = bool
+  description = "When using application load balancing, add a relatively common listener which redirects to https"
+  default     = false
+}
+
+variable "https_redirect_from_port" {
+  type        = number
+  description = "The listening port which will redirect traffic to HTTPS"
+  default     = 80
+}
+
+variable "https_redirect_to_port" {
+  type        = number
+  description = "HTTPS redirect will be sent to this port"
+  default     = 443
+}
