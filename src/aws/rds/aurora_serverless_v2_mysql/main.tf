@@ -17,7 +17,9 @@ resource "aws_rds_cluster" "main" {
     min_capacity             = var.min_db_capacity
     seconds_until_auto_pause = var.db_pause_timer
   }
-  tags = merge(var.tags, { "Name" = var.cluster_name })
+  tags                      = merge(var.tags, { "Name" = var.cluster_name })
+  skip_final_snapshot       = var.skip_final_snapshot
+  final_snapshot_identifier = var.skip_final_snapshot ? null : coalesce(var.final_snapshot_identifier, "${var.cluster_name}-final")
 }
 
 resource "aws_rds_cluster_instance" "main" {

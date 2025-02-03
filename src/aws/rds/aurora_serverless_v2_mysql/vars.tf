@@ -72,3 +72,15 @@ variable "tags" {
   description = "Tags to add to the cluster's resources"
   default     = {}
 }
+
+variable "skip_final_snapshot" {
+  type        = bool
+  description = "Skip final snapshot on delete"
+  default     = false
+}
+
+variable "final_snapshot_identifier" {
+  type        = string
+  description = "Indentifier for the final snapshot, on delete"
+  default     = ""
+}
