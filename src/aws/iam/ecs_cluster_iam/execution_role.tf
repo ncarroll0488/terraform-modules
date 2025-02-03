@@ -57,6 +57,31 @@ data "aws_iam_policy_document" "execution_policy" {
       effect    = "Allow"
     }
   }
+
+  dynamic "statement" {
+    for_each = length(var.secret_arns) > 0 ? ["a"] : []
+    content {
+      sid = "SecretsAccess"
+      actions = [
+        "secretsmanager:GetSecretValue"
+      ]
+      resources = toset(var.secret_arns)
+      effect    = "Allow"
+    }
+  }
+
+  dynamic "statement" {
+    for_each = length(var.ssm_parameter_arns) > 0 ? ["a"] : []
+    content {
+      sid = "SSMParameterAccess"
+      actions = [
+        "ssm:GetParameter",
+        "ssm:GetParameters"
+      ]
+      resources = toset(var.ssm_parameter_arns)
+      effect    = "Allow"
+    }
+  }
 }
 
 resource "aws_iam_policy" "execution_policy" {

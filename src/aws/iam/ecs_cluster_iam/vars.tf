@@ -49,4 +49,17 @@ variable "vpc_ids" {
 variable "ecs_cluster_arns" {
   type        = list(string)
   description = "List of cluster ARNs in which these roles can run tasks"
+  default     = []
+}
+
+variable "secret_arns" {
+  type        = list(string)
+  description = "List of secret ARNs this role will be able to access"
+  default     = []
+}
+
+variable "ssm_parameter_arns" {
+  type        = list(string)
+  description = "List of SSM parameter ARNs this role will be able to acces"
+  default     = []
 }
