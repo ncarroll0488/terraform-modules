@@ -36,6 +36,6 @@ No requirements.
 
 | Name | Description |
 |------|-------------|
-| endpoint | DNS name of the cluster |
+| address | DNS name of the cluster |
 | master\_user\_secret | Information about the master secret |
 

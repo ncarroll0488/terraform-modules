@@ -3,7 +3,7 @@ output "master_user_secret" {
   value       = aws_db_instance.main.master_user_secret
 }
 
-output "endpoint" {
+output "address" {
   description = "DNS name of the cluster"
-  value       = aws_db_instance.main.endpoint
+  value       = aws_db_instance.main.address
 }
