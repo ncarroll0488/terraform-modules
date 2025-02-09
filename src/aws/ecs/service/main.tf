@@ -21,7 +21,7 @@ resource "aws_ecs_service" "main" {
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   deployment_maximum_percent         = var.deployment_maximum_percent
   force_new_deployment               = var.force_new_deployment
-  tags                               = merge(var.tags, { Name = "var.service_name" })
+  tags                               = merge(var.tags, { Name = var.service_name })
   lifecycle {
     ignore_changes = [
       desired_count
