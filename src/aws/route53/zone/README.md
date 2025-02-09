@@ -20,4 +20,6 @@ No requirements.
 | Name | Description |
 |------|-------------|
 | ns\_records | Nameserver records |
+| zone\_arn | ARN of the created zone |
+| zone\_id | ID of the created zone |
 
