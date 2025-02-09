@@ -4,7 +4,7 @@ resource "aws_route53_zone" "main" {
     for_each = var.private_vpc_associations
     content {
       vpc_region = try(each.value.region, null)
-      vpc_id = each.value.vpc_id
+      vpc_id     = each.value.vpc_id
     }
   }
 }
