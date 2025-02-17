@@ -185,6 +185,7 @@ variable "listener_forwarding" {
     { name = "listener_protocol", value = "HTTPS" },
     { name = "target_protocol", value = "HTTP" },
     { name = "listener_certificate", value = "arn:foo" },
+    { name = "vpc_id", value = "vpc-123" },
   ]
 }
 */
