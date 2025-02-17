@@ -9,4 +9,5 @@ resource "aws_lb_listener" "main" {
     type             = "forward"
     target_group_arn = lookup(aws_lb_target_group.main, each.key).arn
   }
+  tags = merge(var.tags, { name = "${var.lb_name}:${each.key}" })
 }
