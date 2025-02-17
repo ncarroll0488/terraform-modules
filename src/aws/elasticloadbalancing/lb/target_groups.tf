@@ -14,4 +14,5 @@ resource "aws_lb_target_group" "main" {
     timeout             = try(each.value.health_check_timeout, null)
     unhealthy_threshold = try(each.value.health_check_unhealthy_threshold, null)
   }
+  tags = merge(var.tags, { Name = "${var.lb_name}:${each.key}" })
 }

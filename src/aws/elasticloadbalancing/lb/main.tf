@@ -71,4 +71,5 @@ resource "aws_lb_listener" "redirect_https" {
       status_code = "HTTP_301"
     }
   }
+  tags = merge(var.tags, { Name = "${var.lb_name}:https_redirect" })
 }
