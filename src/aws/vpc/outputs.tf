@@ -32,3 +32,8 @@ output "internal_route_tables" {
   description = "Route tables used in internal subnets"
   value       = { for k, v in aws_route_table.internal : k => v.id }
 }
+
+output "vpc_cidrs" {
+  description = "CIDRs attached to the VPC"
+  value       = compact(flatten([var.primary_cidr, var.additional_cidrs]))
+}
