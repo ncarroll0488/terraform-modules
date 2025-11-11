@@ -31,7 +31,7 @@ resource "aws_instance" "main" {
   key_name               = var.key_name
   iam_instance_profile   = var.iam_role == "" ? null : aws_iam_instance_profile.main[0].name
 
-  user_data = templatefile("${path.module}/iptables.sh.tpl", { allowed_cidrs = toset(var.allowed_cidrs) })
+  user_data = templatefile("${path.module}/iptables.sh.tftpl", { allowed_cidrs = toset(var.allowed_cidrs) })
 
   tags = merge(var.tags, { "Name" = join(" ", [var.nat_name, each.key]) })
 
