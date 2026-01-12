@@ -37,3 +37,15 @@ output "vpc_cidrs" {
   description = "CIDRs attached to the VPC"
   value       = compact(flatten([var.primary_cidr, var.additional_cidrs]))
 }
+
+/*
+output "nat_gateway_ips" {
+  description = "IPv4 addresses assigned to NAT gateways"
+  value       = var.provision_private_subnets && contains(["ec2", "ngw"], var.nat_type) ? aws_eip.nat[*].public_ip : []
+}
+*/
+
+output "nat_gateway_ips" {
+  description = "IPv4 addresses assigned to NAT gateways"
+  value       = var.provision_private_subnets && contains(["ec2", "ngw"], var.nat_type) ? [for x, y in aws_eip.nat : y.public_ip] : []
+}
