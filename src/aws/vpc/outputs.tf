@@ -39,12 +39,12 @@ output "vpc_cidrs" {
 }
 
 output "nat_gateway_ips" {
-  description = "IPv4 addresses assigned to NAT gateways"
+  description = "IPv4 addresses assigned to NAT gateways, by AZ"
   value       = var.provision_private_subnets && contains(["ec2", "ngw"], var.nat_type) ? { for x, y in aws_eip.nat : x => y.public_ip } : null
 }
 
 output "nat_gateway_ids" {
-  description = "IDs of the NAT gateway resources/instances by AZ"
+  description = "IDs of the NAT gateway resources/instances, by AZ"
   value = var.provision_private_subnets ? merge([
     { for x, y in aws_nat_gateway.main : x => y.id },
     { for x, y in aws_instance.ec2_nat : x => y.id }

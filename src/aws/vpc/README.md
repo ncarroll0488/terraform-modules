@@ -86,8 +86,8 @@ No modules.
 |------|-------------|
 | <a name="output_internal_route_tables"></a> [internal\_route\_tables](#output\_internal\_route\_tables) | Route tables used in internal subnets |
 | <a name="output_internal_subnets"></a> [internal\_subnets](#output\_internal\_subnets) | All subnets in the internal routing class, by AZ |
-| <a name="output_nat_gateway_ids"></a> [nat\_gateway\_ids](#output\_nat\_gateway\_ids) | IDs of the NAT gateway resources/instances by AZ |
-| <a name="output_nat_gateway_ips"></a> [nat\_gateway\_ips](#output\_nat\_gateway\_ips) | IPv4 addresses assigned to NAT gateways |
+| <a name="output_nat_gateway_ids"></a> [nat\_gateway\_ids](#output\_nat\_gateway\_ids) | IDs of the NAT gateway resources/instances, by AZ |
+| <a name="output_nat_gateway_ips"></a> [nat\_gateway\_ips](#output\_nat\_gateway\_ips) | IPv4 addresses assigned to NAT gateways, by AZ |
 | <a name="output_private_route_tables"></a> [private\_route\_tables](#output\_private\_route\_tables) | Route tables used in private subnets |
 | <a name="output_private_subnets"></a> [private\_subnets](#output\_private\_subnets) | All subnets in the private routing class, by AZ |
 | <a name="output_public_route_table"></a> [public\_route\_table](#output\_public\_route\_table) | Public route table, if used |
