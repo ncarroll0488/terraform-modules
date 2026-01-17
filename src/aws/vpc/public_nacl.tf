@@ -23,7 +23,7 @@ resource "aws_network_acl_rule" "public" {
 }
 
 resource "aws_network_acl_association" "public" {
-  for_each = length(var.public_nacl_rules) > 0 ? local.public_subnet_definitions : {}
+  for_each       = length(var.public_nacl_rules) > 0 ? local.public_subnet_definitions : {}
   network_acl_id = aws_network_acl.public[0].id
   subnet_id      = aws_subnet.public[each.key].id
 }

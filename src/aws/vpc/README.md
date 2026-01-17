@@ -66,14 +66,17 @@ No modules.
 | <a name="input_ec2_gateway_instance_type"></a> [ec2\_gateway\_instance\_type](#input\_ec2\_gateway\_instance\_type) | Instance type used for the NAT | `string` | `"t4g.nano"` | no |
 | <a name="input_ec2_gateway_ssh_key_name"></a> [ec2\_gateway\_ssh\_key\_name](#input\_ec2\_gateway\_ssh\_key\_name) | SSH Keypair used by the nat instances | `string` | `""` | no |
 | <a name="input_ignore_availability_zone_ids"></a> [ignore\_availability\_zone\_ids](#input\_ignore\_availability\_zone\_ids) | Ignore these availability zones. Note that changing this setting may result in lots of resources being replaced | `list(string)` | `[]` | no |
+| <a name="input_internal_nacl_rules"></a> [internal\_nacl\_rules](#input\_internal\_nacl\_rules) | Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters. | `map(any)` | `{}` | no |
 | <a name="input_internal_subnet_cidr"></a> [internal\_subnet\_cidr](#input\_internal\_subnet\_cidr) | Provision the internal subnets from this CIDR. | `string` | `""` | no |
 | <a name="input_nat_type"></a> [nat\_type](#input\_nat\_type) | Pick the type of NAT used. Allowed values, `ec2`, `ngw` | `string` | `"ngw"` | no |
 | <a name="input_pad_cidrs"></a> [pad\_cidrs](#input\_pad\_cidrs) | Leave gaps between unused availabiity zones and subnet classes. | `bool` | `true` | no |
 | <a name="input_primary_cidr"></a> [primary\_cidr](#input\_primary\_cidr) | Primary VPC CIDR | `string` | n/a | yes |
+| <a name="input_private_nacl_rules"></a> [private\_nacl\_rules](#input\_private\_nacl\_rules) | Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters. | `map(any)` | `{}` | no |
 | <a name="input_private_subnet_cidr"></a> [private\_subnet\_cidr](#input\_private\_subnet\_cidr) | Provision the private subnets from this CIDR. | `string` | `""` | no |
 | <a name="input_provision_internal_subnets"></a> [provision\_internal\_subnets](#input\_provision\_internal\_subnets) | Enables provisioning of internal subnets, which do not have internet access | `bool` | `false` | no |
 | <a name="input_provision_private_subnets"></a> [provision\_private\_subnets](#input\_provision\_private\_subnets) | Enables provisioning of private subnets, which use a NGW to get to the internet. This also enables public subnets | `bool` | `false` | no |
 | <a name="input_provision_public_subnets"></a> [provision\_public\_subnets](#input\_provision\_public\_subnets) | Enables provisioning of public subnets, which use an IGW to get to the internet | `bool` | `false` | no |
+| <a name="input_public_nacl_rules"></a> [public\_nacl\_rules](#input\_public\_nacl\_rules) | Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters. | `map(any)` | `{}` | no |
 | <a name="input_public_subnet_cidr"></a> [public\_subnet\_cidr](#input\_public\_subnet\_cidr) | Provision the public subnets from this CIDR. | `string` | `""` | no |
 | <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of the VPC. Used in tags | `string` | `"Main VPC"` | no |
 

@@ -23,7 +23,7 @@ resource "aws_network_acl_rule" "internal" {
 }
 
 resource "aws_network_acl_association" "internal" {
-  for_each = length(var.internal_nacl_rules) > 0 ? local.internal_subnet_definitions : {}
+  for_each       = length(var.internal_nacl_rules) > 0 ? local.internal_subnet_definitions : {}
   network_acl_id = aws_network_acl.internal[0].id
   subnet_id      = aws_subnet.internal[each.key].id
 }
