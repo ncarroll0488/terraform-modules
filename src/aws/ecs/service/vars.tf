@@ -81,14 +81,8 @@ variable "lb_associations" {
   default     = []
 }
 
-/*
-  example lb_associations
-[
-  {
-    target_group_arn = "arn:1234"
-    container_name = "foobar"
-    container_port = "80"    // do a string or terraform/grunt may complain about mixed data types.
-  }
-]
-
-*/
+variable "availability_zone_rebalancing" {
+  description = "Enable AZ rebalancing"
+  type        = bool
+  default     = false
+}
