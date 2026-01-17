@@ -67,7 +67,7 @@ resource "aws_instance" "ec2_nat" {
   source_dest_check      = false
   ami                    = data.aws_ami.amzn2023[0].id
   instance_type          = var.ec2_gateway_instance_type
-  subnet_id              = aws_subnet.private[each.key].id
+  subnet_id              = aws_subnet.public[each.key].id
   vpc_security_group_ids = [aws_security_group.ec2_nat[0].id] # The VPC doesn't exist prior to applying this module, so there exists no way to reference additional SGIDs.
   key_name               = var.ec2_gateway_ssh_key_name
   iam_instance_profile   = var.ec2_gateway_iam_role == "" ? null : aws_iam_instance_profile.main[0].name
