@@ -131,7 +131,7 @@ As an example, If we have 4 availability zones, that means up to 12 CIDRs are ne
 
 If we provided a VPC CIDR `203.0.113.0/24`, that means each subnet will have a CIDR of size `/28`. The individual CIDR assignments are done sequentially, starting "left to right" through availability zones, and then "top to bottom" in the order public, private, internal.
 
-| Network Type | az1 | az2 | az3 | az4 |
+| Subnet Type | az1 | az2 | az3 | az4 |
 | :--- | :--- | :--- | :--- | :--- |
 | **public** | 203.0.113.0/28 | 203.0.113.16/28 | 203.0.113.32/28 | 203.0.113.48/28 |
 | **private** | 203.0.113.64/28 | 203.0.113.80/28 | 203.0.113.96/28 | 203.0.113.112/28 |
