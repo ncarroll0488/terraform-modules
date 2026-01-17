@@ -86,7 +86,8 @@ No modules.
 |------|-------------|
 | <a name="output_internal_route_tables"></a> [internal\_route\_tables](#output\_internal\_route\_tables) | Route tables used in internal subnets |
 | <a name="output_internal_subnets"></a> [internal\_subnets](#output\_internal\_subnets) | All subnets in the internal routing class, by AZ |
-| <a name="output_nat_gateway_ips"></a> [nat\_gateway\_ips](#output\_nat\_gateway\_ips) | IPv4 addresses assigned to NAT gateways |
+| <a name="output_nat_gateway_ids"></a> [nat\_gateway\_ids](#output\_nat\_gateway\_ids) | IDs of the NAT gateway resources/instances, by AZ |
+| <a name="output_nat_gateway_ips"></a> [nat\_gateway\_ips](#output\_nat\_gateway\_ips) | IPv4 addresses assigned to NAT gateways, by AZ |
 | <a name="output_private_route_tables"></a> [private\_route\_tables](#output\_private\_route\_tables) | Route tables used in private subnets |
 | <a name="output_private_subnets"></a> [private\_subnets](#output\_private\_subnets) | All subnets in the private routing class, by AZ |
 | <a name="output_public_route_table"></a> [public\_route\_table](#output\_public\_route\_table) | Public route table, if used |
@@ -126,8 +127,17 @@ A key feature of this module handles the splitting of a CIDR to even-sized parts
 
 Right-sized subnet CIDRs are determined by first calculating the total number of possible availability zones, and multiplying it by 3 (three types of routing: public, private, internal). Next we, get the ceiling of the log-base-2 of that number. This yields the number of bits which are added to the provided CIDR netmask when provisioning a subnet.
 
-As an example, If we have 4 availability zones, that means up to 12 CIDRs are needed to accommodate all possible subnet configurations. log-base-2 of 12 is ~ 3.58, which round up to 4 (we always round up).
+As an example, If we have 4 availability zones, that means up to 12 CIDRs are needed to accommodate all possible subnet configurations. log-base-2 of 12 is ~ 3.58, which rounds up to 4 (we always round up).
 
-If we provided a CIDR `203.0.113.0/24`, that means each subnet will have a CIDR of size `/28`. The individual CIDR assignments are done sequentially, starting "left to right" through availability zones, and then "top to bottom" in the order public, private, internal.
+If we provided a VPC CIDR `203.0.113.0/24`, that means each subnet will have a CIDR of size `/28`. The individual CIDR assignments are done sequentially, starting "left to right" through availability zones, and then "top to bottom" in the order public, private, internal.
+
+| Subnet Type | az1 | az2 | az3 | az4 |
+| :--- | :--- | :--- | :--- | :--- |
+| **public** | 203.0.113.0/28 | 203.0.113.16/28 | 203.0.113.32/28 | 203.0.113.48/28 |
+| **private** | 203.0.113.64/28 | 203.0.113.80/28 | 203.0.113.96/28 | 203.0.113.112/28 |
+| **internal** | 203.0.113.128/28 | 203.0.113.144/28 | 203.0.113.160/28 | 203.0.113.176/28 |
 
 Note that in this example, some unused space is remaining at the "end" of the VPC starting at `203.0.113.192`.
+
+## NAT Gateway types
+By default, this module provisions AWS NAT gateways to handle the egress of traffic from private subnets to the internet. However, the variable `nat_type` can be set to `ec2` to use EC2 instances running amazon linux and iptables to handle NAT. This is cheaper than using AWS NAT, but is less fault tolerant.
