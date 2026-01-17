@@ -68,3 +68,63 @@ variable "additional_cidrs" {
   default     = []
   description = "Additional VPC CIDRs not otherwise specified"
 }
+
+variable "nat_type" {
+  type        = string
+  default     = "ngw"
+  description = "Pick the type of NAT used. Allowed values, `ec2`, `ngw`"
+}
+
+variable "ec2_gateway_egress_v4_cidrs" {
+  type        = list(string)
+  default     = ["0.0.0.0/0"]
+  description = "List of CIDRs the NAT gateways are allowed to access. Only used for EC2 nat."
+}
+
+variable "ec2_gateway_ingress_v4_cidrs" {
+  type        = list(string)
+  default     = []
+  description = "List of CIDRs allowed to forward traffic over the NAT. If left empty, this will allow all VPC CIDRs. Only used in EC2 nat."
+}
+
+variable "ec2_gateway_instance_arch" {
+  type        = string
+  default     = "arm64"
+  description = "Arch of the NAT instance, used in AMI lookup."
+}
+
+variable "ec2_gateway_instance_type" {
+  type        = string
+  default     = "t4g.nano"
+  description = "Instance type used for the NAT"
+}
+
+variable "ec2_gateway_iam_role" {
+  type        = string
+  default     = ""
+  description = "Specify an IAM role to associate with an iam instance profile"
+}
+
+variable "ec2_gateway_ssh_key_name" {
+  type        = string
+  default     = ""
+  description = "SSH Keypair used by the nat instances"
+}
+
+variable "public_nacl_rules" {
+  type        = map(any)
+  default     = {}
+  description = "Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters."
+}
+
+variable "private_nacl_rules" {
+  type        = map(any)
+  default     = {}
+  description = "Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters."
+}
+
+variable "internal_nacl_rules" {
+  type        = map(any)
+  default     = {}
+  description = "Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters."
+}

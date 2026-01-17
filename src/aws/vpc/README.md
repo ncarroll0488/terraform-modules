@@ -1,3 +1,4 @@
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 No requirements.
@@ -6,36 +7,94 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| aws | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.28.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_eip.nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip) | resource |
+| [aws_eip_association.ec2_nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eip_association) | resource |
+| [aws_iam_instance_profile.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/iam_instance_profile) | resource |
+| [aws_instance.ec2_nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/instance) | resource |
+| [aws_internet_gateway.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
+| [aws_internet_gateway_attachment.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway_attachment) | resource |
+| [aws_nat_gateway.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
+| [aws_network_acl.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl) | resource |
+| [aws_network_acl.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl) | resource |
+| [aws_network_acl.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl) | resource |
+| [aws_network_acl_association.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_association) | resource |
+| [aws_network_acl_association.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_association) | resource |
+| [aws_network_acl_association.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_association) | resource |
+| [aws_network_acl_rule.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule) | resource |
+| [aws_network_acl_rule.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule) | resource |
+| [aws_network_acl_rule.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule) | resource |
+| [aws_route.ec2_nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
+| [aws_route_table.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
+| [aws_route_table.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
+| [aws_route_table.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table) | resource |
+| [aws_route_table_association.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
+| [aws_route_table_association.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
+| [aws_route_table_association.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route_table_association) | resource |
+| [aws_security_group.ec2_nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/security_group) | resource |
+| [aws_subnet.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
+| [aws_subnet.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
+| [aws_subnet.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/subnet) | resource |
+| [aws_vpc.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc) | resource |
+| [aws_vpc_ipv4_cidr_block_association.additional](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_ipv4_cidr_block_association) | resource |
+| [aws_vpc_security_group_egress_rule.ec2_nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_egress_rule) | resource |
+| [aws_vpc_security_group_ingress_rule.ec2_nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_security_group_ingress_rule) | resource |
+| [aws_ami.amzn2023](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/ami) | data source |
+| [aws_availability_zones.az](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/availability_zones) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| additional\_cidrs | Additional VPC CIDRs not otherwise specified | `list(string)` | `[]` | no |
-| desired\_availability\_zones | How many availability zones to use. The module will fail if there aren't enough AZs | `number` | `3` | no |
-| ignore\_availability\_zone\_ids | Ignore these availability zones. Note that changing this setting may result in lots of resources being replaced | `list(string)` | `[]` | no |
-| internal\_subnet\_cidr | Provision the internal subnets from this CIDR. | `string` | `""` | no |
-| pad\_cidrs | Leave gaps between unused availabiity zones and subnet classes. | `bool` | `true` | no |
-| primary\_cidr | Primary VPC CIDR | `string` | n/a | yes |
-| private\_subnet\_cidr | Provision the private subnets from this CIDR. | `string` | `""` | no |
-| provision\_internal\_subnets | Enables provisioning of internal subnets, which do not have internet access | `bool` | `false` | no |
-| provision\_private\_subnets | Enables provisioning of private subnets, which use a NGW to get to the internet. This also enables public subnets | `bool` | `false` | no |
-| provision\_public\_subnets | Enables provisioning of public subnets, which use an IGW to get to the internet | `bool` | `false` | no |
-| public\_subnet\_cidr | Provision the public subnets from this CIDR. | `string` | `""` | no |
-| vpc\_name | Name of the VPC. Used in tags | `string` | `"Main VPC"` | no |
+| <a name="input_additional_cidrs"></a> [additional\_cidrs](#input\_additional\_cidrs) | Additional VPC CIDRs not otherwise specified | `list(string)` | `[]` | no |
+| <a name="input_desired_availability_zones"></a> [desired\_availability\_zones](#input\_desired\_availability\_zones) | How many availability zones to use. The module will fail if there aren't enough AZs | `number` | `3` | no |
+| <a name="input_ec2_gateway_egress_v4_cidrs"></a> [ec2\_gateway\_egress\_v4\_cidrs](#input\_ec2\_gateway\_egress\_v4\_cidrs) | List of CIDRs the NAT gateways are allowed to access. Only used for EC2 nat. | `list(string)` | <pre>[<br/>  "0.0.0.0/0"<br/>]</pre> | no |
+| <a name="input_ec2_gateway_iam_role"></a> [ec2\_gateway\_iam\_role](#input\_ec2\_gateway\_iam\_role) | Specify an IAM role to associate with an iam instance profile | `string` | `""` | no |
+| <a name="input_ec2_gateway_ingress_v4_cidrs"></a> [ec2\_gateway\_ingress\_v4\_cidrs](#input\_ec2\_gateway\_ingress\_v4\_cidrs) | List of CIDRs allowed to forward traffic over the NAT. If left empty, this will allow all VPC CIDRs. Only used in EC2 nat. | `list(string)` | `[]` | no |
+| <a name="input_ec2_gateway_instance_arch"></a> [ec2\_gateway\_instance\_arch](#input\_ec2\_gateway\_instance\_arch) | Arch of the NAT instance, used in AMI lookup. | `string` | `"arm64"` | no |
+| <a name="input_ec2_gateway_instance_type"></a> [ec2\_gateway\_instance\_type](#input\_ec2\_gateway\_instance\_type) | Instance type used for the NAT | `string` | `"t4g.nano"` | no |
+| <a name="input_ec2_gateway_ssh_key_name"></a> [ec2\_gateway\_ssh\_key\_name](#input\_ec2\_gateway\_ssh\_key\_name) | SSH Keypair used by the nat instances | `string` | `""` | no |
+| <a name="input_ignore_availability_zone_ids"></a> [ignore\_availability\_zone\_ids](#input\_ignore\_availability\_zone\_ids) | Ignore these availability zones. Note that changing this setting may result in lots of resources being replaced | `list(string)` | `[]` | no |
+| <a name="input_internal_nacl_rules"></a> [internal\_nacl\_rules](#input\_internal\_nacl\_rules) | Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters. | `map(any)` | `{}` | no |
+| <a name="input_internal_subnet_cidr"></a> [internal\_subnet\_cidr](#input\_internal\_subnet\_cidr) | Provision the internal subnets from this CIDR. | `string` | `""` | no |
+| <a name="input_nat_type"></a> [nat\_type](#input\_nat\_type) | Pick the type of NAT used. Allowed values, `ec2`, `ngw` | `string` | `"ngw"` | no |
+| <a name="input_pad_cidrs"></a> [pad\_cidrs](#input\_pad\_cidrs) | Leave gaps between unused availabiity zones and subnet classes. | `bool` | `true` | no |
+| <a name="input_primary_cidr"></a> [primary\_cidr](#input\_primary\_cidr) | Primary VPC CIDR | `string` | n/a | yes |
+| <a name="input_private_nacl_rules"></a> [private\_nacl\_rules](#input\_private\_nacl\_rules) | Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters. | `map(any)` | `{}` | no |
+| <a name="input_private_subnet_cidr"></a> [private\_subnet\_cidr](#input\_private\_subnet\_cidr) | Provision the private subnets from this CIDR. | `string` | `""` | no |
+| <a name="input_provision_internal_subnets"></a> [provision\_internal\_subnets](#input\_provision\_internal\_subnets) | Enables provisioning of internal subnets, which do not have internet access | `bool` | `false` | no |
+| <a name="input_provision_private_subnets"></a> [provision\_private\_subnets](#input\_provision\_private\_subnets) | Enables provisioning of private subnets, which use a NGW to get to the internet. This also enables public subnets | `bool` | `false` | no |
+| <a name="input_provision_public_subnets"></a> [provision\_public\_subnets](#input\_provision\_public\_subnets) | Enables provisioning of public subnets, which use an IGW to get to the internet | `bool` | `false` | no |
+| <a name="input_public_nacl_rules"></a> [public\_nacl\_rules](#input\_public\_nacl\_rules) | Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters. | `map(any)` | `{}` | no |
+| <a name="input_public_subnet_cidr"></a> [public\_subnet\_cidr](#input\_public\_subnet\_cidr) | Provision the public subnets from this CIDR. | `string` | `""` | no |
+| <a name="input_vpc_name"></a> [vpc\_name](#input\_vpc\_name) | Name of the VPC. Used in tags | `string` | `"Main VPC"` | no |
 
 ## Outputs
 
 | Name | Description |
 |------|-------------|
-| internal\_route\_tables | Route tables used in internal subnets |
-| internal\_subnets | All subnets in the internal routing class, by AZ |
-| private\_route\_tables | Route tables used in private subnets |
-| private\_subnets | All subnets in the private routing class, by AZ |
-| public\_route\_table | Public route table, if used |
-| public\_subnets | All subnets in the public routing class, by AZ |
-| vpc\_id | ID of the VPC |
+| <a name="output_internal_route_tables"></a> [internal\_route\_tables](#output\_internal\_route\_tables) | Route tables used in internal subnets |
+| <a name="output_internal_subnets"></a> [internal\_subnets](#output\_internal\_subnets) | All subnets in the internal routing class, by AZ |
+| <a name="output_nat_gateway_ips"></a> [nat\_gateway\_ips](#output\_nat\_gateway\_ips) | IPv4 addresses assigned to NAT gateways |
+| <a name="output_private_route_tables"></a> [private\_route\_tables](#output\_private\_route\_tables) | Route tables used in private subnets |
+| <a name="output_private_subnets"></a> [private\_subnets](#output\_private\_subnets) | All subnets in the private routing class, by AZ |
+| <a name="output_public_route_table"></a> [public\_route\_table](#output\_public\_route\_table) | Public route table, if used |
+| <a name="output_public_subnets"></a> [public\_subnets](#output\_public\_subnets) | All subnets in the public routing class, by AZ |
+| <a name="output_vpc_cidrs"></a> [vpc\_cidrs](#output\_vpc\_cidrs) | CIDRs attached to the VPC |
+| <a name="output_vpc_id"></a> [vpc\_id](#output\_vpc\_id) | ID of the VPC |
+<!-- END_TF_DOCS -->
+
 
 ## About
 This module attempts provide boilerplate configuration of a VPC. It is not meant to encompass every single feature of a VPC, but rather to provide the operator with a functional, customizable resource.
