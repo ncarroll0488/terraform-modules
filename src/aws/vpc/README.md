@@ -24,8 +24,15 @@ No modules.
 | [aws_internet_gateway.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway) | resource |
 | [aws_internet_gateway_attachment.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/internet_gateway_attachment) | resource |
 | [aws_nat_gateway.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/nat_gateway) | resource |
-| [aws_network_acl.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl) | resource |
-| [aws_network_acl_rule.main](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule) | resource |
+| [aws_network_acl.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl) | resource |
+| [aws_network_acl.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl) | resource |
+| [aws_network_acl.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl) | resource |
+| [aws_network_acl_association.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_association) | resource |
+| [aws_network_acl_association.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_association) | resource |
+| [aws_network_acl_association.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_association) | resource |
+| [aws_network_acl_rule.internal](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule) | resource |
+| [aws_network_acl_rule.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule) | resource |
+| [aws_network_acl_rule.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule) | resource |
 | [aws_route.ec2_nat](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.private](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
 | [aws_route.public](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/route) | resource |
@@ -60,7 +67,6 @@ No modules.
 | <a name="input_ec2_gateway_ssh_key_name"></a> [ec2\_gateway\_ssh\_key\_name](#input\_ec2\_gateway\_ssh\_key\_name) | SSH Keypair used by the nat instances | `string` | `""` | no |
 | <a name="input_ignore_availability_zone_ids"></a> [ignore\_availability\_zone\_ids](#input\_ignore\_availability\_zone\_ids) | Ignore these availability zones. Note that changing this setting may result in lots of resources being replaced | `list(string)` | `[]` | no |
 | <a name="input_internal_subnet_cidr"></a> [internal\_subnet\_cidr](#input\_internal\_subnet\_cidr) | Provision the internal subnets from this CIDR. | `string` | `""` | no |
-| <a name="input_nacl_rules"></a> [nacl\_rules](#input\_nacl\_rules) | Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters. Set type = `"ingress"` for ingress rules, otherwise they're egress | `map(any)` | `{}` | no |
 | <a name="input_nat_type"></a> [nat\_type](#input\_nat\_type) | Pick the type of NAT used. Allowed values, `ec2`, `ngw` | `string` | `"ngw"` | no |
 | <a name="input_pad_cidrs"></a> [pad\_cidrs](#input\_pad\_cidrs) | Leave gaps between unused availabiity zones and subnet classes. | `bool` | `true` | no |
 | <a name="input_primary_cidr"></a> [primary\_cidr](#input\_primary\_cidr) | Primary VPC CIDR | `string` | n/a | yes |

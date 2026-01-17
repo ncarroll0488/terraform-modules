@@ -110,9 +110,3 @@ variable "ec2_gateway_ssh_key_name" {
   default     = ""
   description = "SSH Keypair used by the nat instances"
 }
-
-variable "nacl_rules" {
-  type        = map(any)
-  default     = {}
-  description = "Custom NACL rules. See https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/network_acl_rule for parameters. Set type = `\"ingress\"` for ingress rules, otherwise they're egress"
-}

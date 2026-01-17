@@ -1,0 +1,29 @@
+resource "aws_network_acl" "internal" {
+  count  = length(var.internal_nacl_rules) > 0 ? 1 : 0
+  vpc_id = aws_vpc.main.id
+  tags = {
+    Name = "${var.vpc_name} NACL"
+  }
+}
+
+resource "aws_network_acl_rule" "internal" {
+  for_each = var.internal_nacl_rules
+
+  network_acl_id  = aws_network_acl.internal[0].id
+  egress          = each.value.egress
+  protocol        = each.value.protocol
+  rule_number     = each.key
+  rule_action     = each.value.rule_action
+  cidr_block      = try(each.value.cidr_block, null)
+  ipv6_cidr_block = try(each.value.ipv6_cidr_block, null)
+  from_port       = try(each.value.from_port, null)
+  to_port         = try(each.value.to_port, null)
+  icmp_type       = try(each.value.icmp_type, null)
+  icmp_code       = try(each.value.icmp_code, null)
+}
+
+resource "aws_network_acl_association" "internal" {
+  for_each = length(var.internal_nacl_rules) > 0 ? local.internal_subnet_definitions : {}
+  network_acl_id = aws_network_acl.internal[0].id
+  subnet_id      = aws_subnet.internal[each.key].id
+}
