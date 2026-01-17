@@ -92,8 +92,8 @@ resource "aws_eip_association" "ec2_nat" {
 }
 
 resource "aws_route" "ec2_nat" {
-  for_each               = var.nat_type == "ec2" ? { for a, b in setproduct(keys(local.private_subnet_definitions), toset(var.ec2_gateway_ingress_v4_cidrs)) : "${a}-${b}" => { az : a, cidr : b } } : {}
-  route_table_id         = each.value.route_table
+  for_each               = var.nat_type == "ec2" ? { for x in setproduct(keys(local.private_subnet_definitions), toset(var.ec2_gateway_egress_v4_cidrs)) : "${x[0]}-${x[1]}" => { az : x[0], cidr : x[1] } } : {}
+  route_table_id         = aws_route_table.private[each.value.az].id
   destination_cidr_block = each.value.cidr
-  network_interface_id   = aws_instance.ec2_nat[each.value.name].primary_network_interface_id
+  network_interface_id   = aws_instance.ec2_nat[each.value.az].primary_network_interface_id
 }
