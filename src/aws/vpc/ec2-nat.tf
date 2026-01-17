@@ -23,7 +23,7 @@ resource "aws_iam_instance_profile" "main" {
 }
 
 resource "aws_security_group" "ec2_nat" {
-  count       = var.nat_type == "ec2" ? 1 : 0
+  count       = var.provision_private_subnets && var.nat_type == "ec2" ? 1 : 0
   name_prefix = "${var.vpc_name}_nat"
   vpc_id      = aws_vpc.main.id
 
@@ -37,7 +37,7 @@ resource "aws_security_group" "ec2_nat" {
 # The operator is allowed to override the allowed "outbound" CIDR list to a specific set of V4 CIDRs
 # Note: Network ACLs are often the better option for this.
 resource "aws_vpc_security_group_egress_rule" "ec2_nat" {
-  for_each          = toset(var.nat_type == "ec2" ? var.ec2_gateway_egress_v4_cidrs : [])
+  for_each          = toset(var.provision_private_subnets && var.nat_type == "ec2" ? var.ec2_gateway_egress_v4_cidrs : [])
   security_group_id = aws_security_group.ec2_nat[0].id
   cidr_ipv4         = each.value
   ip_protocol       = "-1"
@@ -52,7 +52,7 @@ resource "aws_vpc_security_group_egress_rule" "ec2_nat" {
 # operator provides it in other ways.  Instead, use coalescelist to allow the user to override the specific list of allowed CIDRs.
 # The operator must necessarily have this list of addresses, so a complete override is preferable to merging values.
 resource "aws_vpc_security_group_ingress_rule" "ec2_nat" {
-  for_each          = toset(var.nat_type == "ec2" ? coalescelist(var.ec2_gateway_ingress_v4_cidrs, local.all_cidrs) : [])
+  for_each          = toset(var.provision_private_subnets && var.nat_type == "ec2" ? coalescelist(var.ec2_gateway_ingress_v4_cidrs, local.all_cidrs) : [])
   security_group_id = aws_security_group.ec2_nat[0].id
   cidr_ipv4         = each.value
   ip_protocol       = "-1"
