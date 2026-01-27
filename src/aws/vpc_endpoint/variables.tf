@@ -3,35 +3,48 @@ variable "vpc_id" {
   type        = string
 }
 
-variable "vpc_endpoint_services" {
-  description = "A list of services which will require an in-vpc service endpoint"
+variable "service_domains" {
+  description = "A list of domain components used to assemble the service endpoint name. You almost certainly do not need to change this in production, but the option exists for edge cases like running against a test API."
+  type        = list(string)
+  default     = ["com", "amazonaws"]
+}
+
+variable "gateway_services" {
+  description = "A list of AWS services to provision as gateway endpoints"
   default     = []
   type        = list(string)
 }
 
-variable "vpc_endpoint_subnets" {
-  description = "A list of subnet IDs into which interface service endpoint interfaces will be placed"
-  type        = list(string)
-  default     = []
-}
-
-variable "vpc_endpoint_route_tables" {
+variable "gateway_route_tables" {
   description = "A list of route tables to which gateway service endponts will be attached"
   type        = list(string)
   default     = []
 }
 
-variable "vpc_endpoint_interface_sg_ids" {
+variable "gateway_policies" {
+  description = "A map of {service => JSON} documents used as resource access policies on gateway-type subnets"
+  type        = map(string)
+  default     = {}
+  validation {
+    condition     = alltrue([for x, y in var.gateway_policies : can(jsondecode(y))])
+    error_message = "One or more gateway policy documents did not parse as valid JSON."
+  }
+}
+
+variable "interface_services" {
+  description = "A list of AWS services to provision as interface endpoints"
+  default     = []
+  type        = list(string)
+}
+
+variable "interface_security_group_ids" {
   description = "Security group IDs to assign to interface-based service endpoints"
   type        = list(string)
   default     = []
 }
 
-locals {
-  gateway_services    = ["s3", "dynamodb"]
-  interface_endpoints = { for a in setproduct(toset(var.vpc_endpoint_subnets), toset(var.vpc_endpoint_services)) : "${a[0]}-${a[1]}" => { "subnet" = a[0], "service" = a[1] } if !contains(local.gateway_services, a[1]) }
-  gateway_endpoints   = { for a in setproduct(toset(var.vpc_endpoint_route_tables), toset(var.vpc_endpoint_services)) : "${a[0]}-${a[1]}" => { "route_table" = a[0], "service" = a[1] } if contains(local.gateway_services, a[1]) }
-}
-
-data "aws_region" "current" {
+variable "interface_subnets" {
+  description = "A list of subnet IDs into which interface service endpoint interfaces will be placed"
+  type        = list(string)
+  default     = []
 }

@@ -1,3 +1,4 @@
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 No requirements.
@@ -6,21 +7,41 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-| aws | n/a |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 6.28.0 |
+
+## Modules
+
+No modules.
+
+## Resources
+
+| Name | Type |
+|------|------|
+| [aws_vpc_endpoint.gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
+| [aws_vpc_endpoint.interface](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint) | resource |
+| [aws_vpc_endpoint_policy.gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_policy) | resource |
+| [aws_vpc_endpoint_route_table_association.gateway](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_route_table_association) | resource |
+| [aws_vpc_endpoint_security_group_association.interface](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_security_group_association) | resource |
+| [aws_vpc_endpoint_subnet_association.interface](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/vpc_endpoint_subnet_association) | resource |
+| [aws_region.current](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/data-sources/region) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| vpc\_endpoint\_interface\_sg\_ids | Security group IDs to assign to interface-based service endpoints | `list(string)` | `[]` | no |
-| vpc\_endpoint\_route\_tables | A list of route tables to which gateway service endponts will be attached | `list(string)` | `[]` | no |
-| vpc\_endpoint\_services | A list of services which will require an in-vpc service endpoint | `list(string)` | `[]` | no |
-| vpc\_endpoint\_subnets | A list of subnet IDs into which interface service endpoint interfaces will be placed | `list(string)` | `[]` | no |
-| vpc\_id | ID of the VPC in which to create the interface | `string` | n/a | yes |
+| <a name="input_gateway_policies"></a> [gateway\_policies](#input\_gateway\_policies) | A map of {service => JSON} documents used as resource access policies on gateway-type subnets | `map(string)` | `{}` | no |
+| <a name="input_gateway_route_tables"></a> [gateway\_route\_tables](#input\_gateway\_route\_tables) | A list of route tables to which gateway service endponts will be attached | `list(string)` | `[]` | no |
+| <a name="input_gateway_services"></a> [gateway\_services](#input\_gateway\_services) | A list of AWS services to provision as gateway endpoints | `list(string)` | `[]` | no |
+| <a name="input_interface_security_group_ids"></a> [interface\_security\_group\_ids](#input\_interface\_security\_group\_ids) | Security group IDs to assign to interface-based service endpoints | `list(string)` | `[]` | no |
+| <a name="input_interface_services"></a> [interface\_services](#input\_interface\_services) | A list of AWS services to provision as interface endpoints | `list(string)` | `[]` | no |
+| <a name="input_interface_subnets"></a> [interface\_subnets](#input\_interface\_subnets) | A list of subnet IDs into which interface service endpoint interfaces will be placed | `list(string)` | `[]` | no |
+| <a name="input_service_domains"></a> [service\_domains](#input\_service\_domains) | A list of domain components used to assemble the service endpoint name. You almost certainly do not need to change this in production, but the option exists for edge cases like running against a test API. | `list(string)` | <pre>[<br/>  "com",<br/>  "amazonaws"<br/>]</pre> | no |
+| <a name="input_vpc_id"></a> [vpc\_id](#input\_vpc\_id) | ID of the VPC in which to create the interface | `string` | n/a | yes |
 
 ## Outputs
 
-No output.
+No outputs.
+<!-- END_TF_DOCS -->
 
 ## Description
 This module creates VPC service endpoints for secure access to AWS services. 
