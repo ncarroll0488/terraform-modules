@@ -3,7 +3,7 @@ resource "aws_lb_target_group" "main" {
   name_prefix = substr(each.key, 0, 6)
   port        = each.value.target_port
   protocol    = each.value.target_protocol
-  target_type = "ip"
+  target_type = try(each.value.target_type, "ip")
   vpc_id      = each.value.vpc_id
   health_check {
     enabled             = try(each.value.health_check_enabled, null)
