@@ -5,6 +5,7 @@ resource "aws_lb_target_group" "main" {
   protocol    = each.value.target_protocol
   target_type = try(each.value.target_type, "ip")
   vpc_id      = each.value.vpc_id
+  deregistration_delay = try(each.value.deregistration_delay, null)
   health_check {
     enabled             = try(each.value.health_check_enabled, null)
     matcher             = try(each.value.health_check_matcher, null)
