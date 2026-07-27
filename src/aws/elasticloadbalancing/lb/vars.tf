@@ -169,24 +169,64 @@ variable "https_redirect_to_port" {
   default     = 443
 }
 
-variable "listener_forwarding" {
+variable "listeners" {
+  description = "Configuration for listeners"
+  type = map(object({
+    alpn_policy                   = optional(string, null),
+    certificate_arn               = optional(string, null),
+    listener_port                 = number,
+    listener_protocol             = string,
+    default_response_content_type = optional(string, "text/plain"),
+    default_response_content      = optional(string, "Hello, world!"),
+    default_response_status       = optional(string, "200"),
+    nlb_target_group              = optional(string)
+  }))
+  default = {}
+}
+
+variable "forwarding_rules" {
+  description = "Configuration for forwarding rules. Reference listeners and TGs via their var's map key"
+  type = map(object({
+    listener     = string,
+    priority     = number,
+    target_group = string,
+    paths        = optional(list(string), []),
+    hosts        = optional(list(string), [])
+  }))
+  default = {}
+}
+
+
+variable "target_groups" {
   description = "A quick-and-easy way to bind a listener to an IP target group. For more advanced behavior, use this module's outputs in a separate module which offers more complex features"
-  type        = map(any)
-  default     = {}
+  type = map(object({
+    target_port                      = number,
+    target_protocol                  = string,
+    target_type                      = optional(string, "ip"),
+    vpc_id                           = string,
+    deregistration_delay             = optional(number, 300)
+    health_check_enabled             = optional(string),
+    health_check_matcher             = optional(string),
+    health_check_path                = optional(string),
+    health_check_port                = optional(number, null),
+    health_check_protocol            = optional(string, null),
+    health_check_timeout             = optional(number, null),
+    health_check_unhealthy_threshold = optional(number, null)
+  }))
+  default = {}
 }
 
-
-/*
-  An example of listener_forwarding
-{
-  bar9876 = [
-    { name = "listener_port", value = "443" },
-    { name = "target_port", value = "80" },
-    { name = "listener_protocol", value = "HTTPS" },
-    { name = "target_protocol", value = "HTTP" },
-    { name = "listener_certificate", value = "arn:foo" },
-    { name = "vpc_id", value = "vpc-123" },
-  ]
+variable "https_redirect_listener_nlb_target_group" {
+  description = "If this is an ALB behind an NLB, attach the http listener for the redirect to these NLB target groups"
+  type        = list(string)
+  default     = []
 }
-*/
 
+variable "listener_nlb_attachments" {
+  description = "If this is an ALB behind an NLB, this defines how the NLB's target groups attach to our listenes"
+  type = map(object({
+    listener         = string,
+    nlb_target_group = string
+  }))
+  default = {}
+}
