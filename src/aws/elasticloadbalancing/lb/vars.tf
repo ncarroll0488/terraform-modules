@@ -179,7 +179,8 @@ variable "listeners" {
     default_response_content_type = optional(string, "text/plain"),
     default_response_content      = optional(string, "Hello, world!"),
     default_response_status       = optional(string, "200"),
-    nlb_target_group              = optional(string)
+    nlb_target_group              = optional(string),
+    default_action_target         = optional(string, null)
   }))
   default = {}
 }

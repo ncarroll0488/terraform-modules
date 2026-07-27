@@ -8,7 +8,7 @@ resource "aws_lb_listener" "main" {
 
   // Default to a fixed response for ALBs. Further config required to talk to targets
   dynamic "default_action" {
-    for_each = var.lb_type == "application" ? ["a"] : []
+    for_each = each.value.default_action_target == null && var.lb_type == "application" ? ["a"] : []
     content {
       type = "fixed-response"
       fixed_response {
@@ -20,7 +20,7 @@ resource "aws_lb_listener" "main" {
   }
 
   dynamic "default_action" {
-    for_each = var.lb_type == "network" ? ["a"] : []
+    for_each = each.value.default_action_target == null ? [] : ["a"]
 
     content {
       type             = "forward"
@@ -45,7 +45,7 @@ resource "aws_lb_listener_rule" "forward" {
     for_each = length(each.value.paths) == 0 && length(each.value.hosts) == 0 ? ["a"] : []
     content {
       path_pattern {
-        values = ["/"]
+        values = ["/*"]
       }
     }
   }
