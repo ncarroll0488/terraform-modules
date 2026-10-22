@@ -68,3 +68,50 @@ resource "aws_lb_listener_rule" "forward" {
     }
   }
 }
+
+resource "aws_lb_listener_rule" "redirect" {
+  for_each     = var.lb_type == "application" ? var.redirect_rules : {}
+  listener_arn = aws_lb_listener.main[each.value.listener].arn
+  priority     = each.value.priority
+
+  action {
+    type = "redirect"
+
+    redirect {
+      host        = each.value.redirect_host
+      path        = each.value.redirect_path
+      port        = each.value.redirect_port
+      protocol    = each.value.redirect_protocol
+      status_code = each.value.redirect_status_code
+      query       = each.value.redirect_query
+    }
+  }
+
+  dynamic "condition" {
+    for_each = length(each.value.paths) == 0 && length(each.value.hosts) == 0 ? ["a"] : []
+    content {
+      path_pattern {
+        values = ["/*"]
+      }
+    }
+  }
+
+  dynamic "condition" {
+    for_each = length(each.value.paths) > 0 ? ["a"] : []
+    content {
+      path_pattern {
+        values = toset(each.value.paths)
+      }
+    }
+  }
+
+  dynamic "condition" {
+    for_each = length(each.value.hosts) > 0 ? ["a"] : []
+    content {
+      host_header {
+        values = each.value.hosts
+      }
+    }
+  }
+}
+
