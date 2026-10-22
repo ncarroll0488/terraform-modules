@@ -104,7 +104,7 @@ data "aws_iam_policy_document" "service_policy" {
       "application-autoscaling:PutScalingPolicy",
       "application-autoscaling:DeleteScalingPolicy"
     ]
-    resources = [for x, y in data.aws_arn.clusters : "arn:aws:application-autoscaling:${y.region}:${y.account}:scalable-target/service/${y.resource}/*"]
+    resources = [for x, y in data.aws_arn.clusters : "arn:aws:application-autoscaling:${y.region}:${y.account}:scalable-target/service/${split("/", y.resource)[1]}/*"]
   }
 
   statement {
@@ -114,7 +114,7 @@ data "aws_iam_policy_document" "service_policy" {
       "ecs:DescribeServices",
       "ecs:UpdateService"
     ]
-    resources = [for x, y in data.aws_arn.clusters : "arn:aws:ecs:${y.region}:${y.account}:service/${y.resource}/*"]
+    resources = [for x, y in data.aws_arn.clusters : "arn:aws:ecs:${y.region}:${y.account}:service/${split("/", y.resource)[1]}/*"]
   }
 }
 

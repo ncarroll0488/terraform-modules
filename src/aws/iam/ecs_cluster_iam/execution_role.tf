@@ -36,12 +36,26 @@ data "aws_iam_policy_document" "execution_policy" {
   }
 
   statement {
-    sid = "Logs"
+    sid    = "CloudWatchLogsGroupLevel"
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:DescribeLogGroups",
+      "logs:DescribeLogStreams",
+      "logs:PutRetentionPolicy"
+    ]
+    resources = var.cloudwatch_log_group_arns
+  }
+
+  statement {
+    sid    = "CloudWatchLogsStreamLevel"
+    effect = "Allow"
     actions = [
       "logs:CreateLogStream",
-      "logs:PutLogEvents"
+      "logs:PutLogEvents",
+      "logs:GetLogEvents",
+      "logs:DescribeLogStreams"
     ]
-    effect    = "Allow"
     resources = local.cloudwatch_log_stream_arns
   }
 

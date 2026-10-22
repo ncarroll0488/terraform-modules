@@ -79,6 +79,7 @@ No modules.
 | <a name="input_cloudwatch_log_group_arns"></a> [cloudwatch\_log\_group\_arns](#input\_cloudwatch\_log\_group\_arns) | ARNs of log groups to be included in policies | `list(string)` | `[]` | no |
 | <a name="input_ecr_repo_arns"></a> [ecr\_repo\_arns](#input\_ecr\_repo\_arns) | List of ECR Repos ARNs accessible by these roles. Defaults to [*] | `list(string)` | `[]` | no |
 | <a name="input_ecs_cluster_arns"></a> [ecs\_cluster\_arns](#input\_ecs\_cluster\_arns) | List of cluster ARNs in which these roles can run tasks | `list(string)` | `[]` | no |
+| <a name="input_enable_eventbridge_role"></a> [enable\_eventbridge\_role](#input\_enable\_eventbridge\_role) | Enable the eventbridge role | `bool` | `false` | no |
 | <a name="input_iam_entity_path"></a> [iam\_entity\_path](#input\_iam\_entity\_path) | Put IAM entities under this path | `string` | `null` | no |
 | <a name="input_kms_key_arns"></a> [kms\_key\_arns](#input\_kms\_key\_arns) | KMS Key IDs which will be used for encrypt/decrypt | `list(string)` | `[]` | no |
 | <a name="input_permissions_boundary"></a> [permissions\_boundary](#input\_permissions\_boundary) | ARN of a permission boundary policy to apply to the task, service, execurtion, and eventbridge roles | `string` | `null` | no |
@@ -93,6 +94,7 @@ No modules.
 
 | Name | Description |
 |------|-------------|
+| <a name="output_eventbridge_role_arn"></a> [eventbridge\_role\_arn](#output\_eventbridge\_role\_arn) | ARN of the role used by eventbridge (Cloudwatch events) |
 | <a name="output_execution_role_arn"></a> [execution\_role\_arn](#output\_execution\_role\_arn) | ARN of the execution role |
 | <a name="output_service_role_arn"></a> [service\_role\_arn](#output\_service\_role\_arn) | ARN of the service role |
 | <a name="output_task_role_arns"></a> [task\_role\_arns](#output\_task\_role\_arns) | ARN of the task role |

@@ -74,3 +74,9 @@ variable "permissions_boundary" {
   description = "ARN of a permission boundary policy to apply to the task, service, execurtion, and eventbridge roles"
   default     = null
 }
+
+variable "enable_eventbridge_role" {
+  type        = bool
+  default     = false
+  description = "Enable the eventbridge role"
+}

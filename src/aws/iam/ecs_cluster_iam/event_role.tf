@@ -14,7 +14,7 @@ resource "aws_iam_role" "events" {
   name_prefix          = "${var.role_name}_events"
   path                 = var.iam_entity_path
   assume_role_policy   = data.aws_iam_policy_document.events_trust.json
-  permissions_boundary = each.value.permissions_boundary
+  permissions_boundary = var.permissions_boundary
 
   tags = {
     Name = "${var.role_name} eventbridge role"
