@@ -12,17 +12,19 @@ data "aws_iam_policy_document" "task_trust" {
 }
 
 resource "aws_iam_role" "task" {
-  name_prefix        = "${var.role_name}_task"
-  path               = var.iam_entity_path
-  assume_role_policy = data.aws_iam_policy_document.task_trust.json
+  for_each             = var.task_roles
+  name_prefix          = "${each.key}_task"
+  path                 = var.iam_entity_path
+  assume_role_policy   = data.aws_iam_policy_document.task_trust.json
+  permissions_boundary = try(coalesce(each.value.permissions_boundary, var.permissions_boundary), null)
 
   tags = {
-    Name = "${var.role_name} ECS Task Role"
+    Name = "${each.key} ECS Task Role"
   }
 }
 
 resource "aws_iam_role_policy_attachment" "task" {
-  for_each   = toset(var.task_role_policies)
-  role       = aws_iam_role.task.name
-  policy_arn = each.value
+  for_each   = local.policy_attachment_map
+  role       = aws_iam_role.task[each.value.role].name
+  policy_arn = each.value.policy
 }

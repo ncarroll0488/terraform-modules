@@ -12,9 +12,10 @@ data "aws_iam_policy_document" "execution_trust" {
 }
 
 resource "aws_iam_role" "execution" {
-  name_prefix        = "${var.role_name}_execution"
-  path               = var.iam_entity_path
-  assume_role_policy = data.aws_iam_policy_document.execution_trust.json
+  name_prefix          = "${var.role_name}_execution"
+  path                 = var.iam_entity_path
+  assume_role_policy   = data.aws_iam_policy_document.execution_trust.json
+  permissions_boundary = var.permissions_boundary
 
   tags = {
     Name = "${var.role_name} ECS Execution role"

@@ -3,8 +3,8 @@ output "execution_role_arn" {
   description = "ARN of the execution role"
 }
 
-output "task_role_arn" {
-  value       = aws_iam_role.task.arn
+output "task_role_arns" {
+  value       = { for x, y in aws_iam_role.task : x => y.arn }
   description = "ARN of the task role"
 }
 

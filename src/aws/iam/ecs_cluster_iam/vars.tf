@@ -3,12 +3,17 @@ variable "role_name" {
   description = "Name of the roles created in this module"
 }
 
-variable "task_role_policies" {
-  type        = list(string)
-  description = "A list of policy ARNs to attach to the task role"
-  default     = []
+variable "task_roles" {
+  type = map(object({
+    policies             = optional(list(string), []),
+    permissions_boundary = optional(string)
+  }))
+  description = "A map of role => config. Currently supported config fields: `policies`"
+  validation {
+    condition     = length(var.task_roles) > 0
+    error_message = "Specify at least one task role."
+  }
 }
-
 
 variable "iam_entity_path" {
   type        = string
@@ -62,4 +67,10 @@ variable "ssm_parameter_arns" {
   type        = list(string)
   description = "List of SSM parameter ARNs this role will be able to acces"
   default     = []
+}
+
+variable "permissions_boundary" {
+  type        = string
+  description = "ARN of a permission boundary policy to apply to the task, service, execurtion, and eventbridge roles"
+  default     = null
 }

@@ -6,15 +6,16 @@ data "aws_iam_policy_document" "service_trust" {
 
     principals {
       type        = "Service"
-      identifiers = ["ecs.amazonaws.com", "events.amazonaws.com"]
+      identifiers = ["ecs.amazonaws.com"]
     }
   }
 }
 
 resource "aws_iam_role" "service" {
-  name_prefix        = "${var.role_name}_service"
-  path               = var.iam_entity_path
-  assume_role_policy = data.aws_iam_policy_document.service_trust.json
+  name_prefix          = "${var.role_name}_service"
+  path                 = var.iam_entity_path
+  assume_role_policy   = data.aws_iam_policy_document.service_trust.json
+  permissions_boundary = var.permissions_boundary
 
   tags = {
     Name = "${var.role_name} Service role"
@@ -58,10 +59,62 @@ data "aws_iam_policy_document" "service_policy" {
       "iam:PassRole"
     ]
     effect = "Allow"
-    resources = [
-      aws_iam_role.execution.arn,
-      aws_iam_role.task.arn
+    resources = concat(
+      [aws_iam_role.execution.arn],
+      [for x, y in aws_iam_role.task : y.arn]
+    )
+  }
+
+  statement {
+    sid    = "AllowCloudWatchLogsAndMetrics"
+    effect = "Allow"
+    actions = [
+      "logs:CreateLogGroup",
+      "logs:CreateLogStream",
+      "logs:PutLogEvents",
+      "logs:DescribeLogStreams",
+      "cloudwatch:PutMetricData"
     ]
+    resources = var.cloudwatch_log_group_arns
+  }
+
+  statement {
+    sid    = "AllowApplicationAutoScalingRead"
+    effect = "Allow"
+    actions = [
+      "application-autoscaling:DescribeScalableTargets",
+      "application-autoscaling:DescribeScalingPolicies",
+      "application-autoscaling:DescribeScalingActivities"
+    ]
+    resources = ["*"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "application-autoscaling:service-namespace"
+      values   = ["ecs"]
+    }
+  }
+
+  statement {
+    sid    = "AllowApplicationAutoScalingWrite"
+    effect = "Allow"
+    actions = [
+      "application-autoscaling:RegisterScalableTarget",
+      "application-autoscaling:DeregisterScalableTarget",
+      "application-autoscaling:PutScalingPolicy",
+      "application-autoscaling:DeleteScalingPolicy"
+    ]
+    resources = [for x, y in data.aws_arn.clusters : "arn:aws:application-autoscaling:${y.region}:${y.account}:scalable-target/service/${y.resource}/*"]
+  }
+
+  statement {
+    sid    = "AllowECSServiceManagementForScaling"
+    effect = "Allow"
+    actions = [
+      "ecs:DescribeServices",
+      "ecs:UpdateService"
+    ]
+    resources = [for x, y in data.aws_arn.clusters : "arn:aws:ecs:${y.region}:${y.account}:service/${y.resource}/*"]
   }
 }
 
