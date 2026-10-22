@@ -197,6 +197,23 @@ variable "forwarding_rules" {
   default = {}
 }
 
+variable "redirect_rules" {
+  description = "Configuration for redirect rules. Reference listeners via their var's map key"
+  type = map(object({
+    listener             = string,
+    priority             = number,
+    paths                = optional(list(string), []),
+    hosts                = optional(list(string), []),
+    redirect_host        = optional(string),
+    redirect_path        = optional(string),
+    redirect_port        = optional(string),
+    redirect_protocol    = optional(string),
+    redirect_query       = optional(string),
+    redirect_status_code = optional(string, "HTTP_301")
+  }))
+  default = {}
+}
+
 
 variable "target_groups" {
   description = "A quick-and-easy way to bind a listener to an IP target group. For more advanced behavior, use this module's outputs in a separate module which offers more complex features"
